@@ -23,5 +23,13 @@ class Program
                 break;
             }
         }
+        if (grade >= 70)
+        {
+            Console.WriteLine("Congratulations! You passed the course.");
+        }
+        else
+        {
+            Console.WriteLine("Unfortunately, you did not pass the course. Better luck next time!");
+        }
     }
 }
