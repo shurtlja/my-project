@@ -1,9 +1,17 @@
 using System;
-
-class Program
+using System.Globalization;
+public class Program
 {
-    static void Main(string[] args)
+    public static void Main()
     {
-        Console.WriteLine("Hello Learning05 World!");
+        List<Shape> shapes = new List<Shape>();
+        shapes.Add(new Square(5, "Red"));
+        shapes.Add(new Rectangle(4, 8, "Blue"));
+        shapes.Add(new Circle(3, "Green"));
+
+        foreach (var shape in shapes)
+        {
+            Console.WriteLine($"{shape.GetColor()}, {shape.GetArea()}");
+        }
     }
 }
