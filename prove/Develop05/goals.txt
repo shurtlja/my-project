@@ -1,0 +1,3 @@
+30
+Eternal|eat food|10
+Simple|sleep|10|True

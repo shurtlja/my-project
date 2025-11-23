@@ -93,24 +93,31 @@ class GoalManager
 
     public void RecordGoal()
     {
+        List<Goal> UncompletedGoals = new List<Goal>();
+        for (int i = 0; i < Goals.Count; i++)
+        {
+            if (!Goals[i].IsComplete())
+            {
+                UncompletedGoals.Add(Goals[i]);
+            }
+        }
         Console.Clear();
-        if (Goals.Count == 0)
+        if (UncompletedGoals.Count == 0)
         {
             Console.WriteLine("No goals available.");
             return;
         }
 
-        for (int i = 0; i < Goals.Count; i++)
-            Console.WriteLine($"{i + 1}. {Goals[i].Name}");
+        for (int i = 0; i < UncompletedGoals.Count; i++)
+            Console.WriteLine($"{i + 1}. {UncompletedGoals[i].Name}");
 
         Console.Write("Choose a goal: ");
         int index = int.Parse(Console.ReadLine()) - 1;
 
         int earned = Goals[index].Record();
-        if (Goals[index].IsComplete())
+        if (UncompletedGoals[index].IsComplete())
         {
             Console.WriteLine("Congratulations! You've completed this goal!");
-            Goals.RemoveAt(index);
         }
         TotalPoints += earned;
         Console.WriteLine($"Gained {earned} points!");
@@ -133,6 +140,6 @@ class GoalManager
 
         Console.WriteLine("\nGoals:");
         foreach (var g in Goals)
-            Console.WriteLine($"- {g.Name}");
+            Console.WriteLine($"- {g.Name} (Complete: {g.IsComplete()})");
     }
 }
