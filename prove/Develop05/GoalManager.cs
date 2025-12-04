@@ -114,7 +114,7 @@ class GoalManager
         Console.Write("Choose a goal: ");
         int index = int.Parse(Console.ReadLine()) - 1;
 
-        int earned = Goals[index].Record();
+        int earned = UncompletedGoals[index].Record();
         if (UncompletedGoals[index].IsComplete())
         {
             Console.WriteLine("Congratulations! You've completed this goal!");

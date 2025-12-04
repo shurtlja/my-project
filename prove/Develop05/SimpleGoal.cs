@@ -9,7 +9,10 @@ class SimpleGoal : Goal
         return Points;
     }
 
-    public override bool IsComplete() => Done;
+    public override bool IsComplete()
+    {
+        return Done;
+    } 
 
     public override string Serialize()
     {
