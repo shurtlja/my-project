@@ -1,0 +1,78 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="FinalProject.Views.AIChatWindow"
+        Title="AI Chat"
+        Width="800"
+        Height="700"
+        WindowStartupLocation="CenterScreen">
+    <Border Padding="20">
+        <Grid RowDefinitions="Auto,*,Auto,Auto" ColumnDefinitions="*">
+        <!-- Initial Settings -->
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="10" Margin="0,0,0,10">
+            <ComboBox Name="LanguageCombo" Width="160" SelectedIndex="0">
+                <ComboBoxItem>English</ComboBoxItem>
+                <ComboBoxItem>Spanish</ComboBoxItem>
+                <ComboBoxItem>French</ComboBoxItem>
+                <ComboBoxItem>German</ComboBoxItem>
+                <ComboBoxItem>Italian</ComboBoxItem>
+                <ComboBoxItem>Japanese</ComboBoxItem>
+                <ComboBoxItem>Chinese</ComboBoxItem>
+            </ComboBox>
+
+            <TextBox Name="TopicBox" Width="360" Watermark="AI role (e.g. restaurant owner, classmate)"/>
+
+            <Button Name="StartBtn" Content="Start Chat" Click="OnStartClick" Padding="8,6"/>
+        </StackPanel>
+        <!-- Chat Display -->
+        <Border Grid.Row="1" 
+                Background="#F9F9F9" 
+                BorderThickness="1"
+                BorderBrush="#CCCCCC"
+                CornerRadius="8"
+                Padding="15"
+                Margin="0,0,0,10">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <TextBlock Name="ChatDisplay"
+                           Text="Chat History..."
+                           Foreground="#333333"
+                           TextWrapping="Wrap"
+                           FontSize="14"/>
+            </ScrollViewer>
+        </Border>
+
+        <!-- Input Area -->
+        <Grid Grid.Row="2" ColumnDefinitions="*,Auto" Margin="0,0,0,10">
+            <TextBox Name="InputBox"
+                     Grid.Column="0"
+                     Watermark="Type your message..."
+                     AcceptsReturn="True"
+                     Height="60"
+                     Padding="10"
+                     Margin="0,0,10,0"/>
+            
+            <Button Name="SendBtn"
+                    Grid.Column="1"
+                    Content="Send"
+                    Click="OnSendClick"
+                    Padding="20,10"
+                    Width="100"
+                    VerticalAlignment="Bottom"/>
+        </Grid>
+
+        <!-- Status and Back Button -->
+        <StackPanel Grid.Row="3" Orientation="Horizontal" Spacing="10">
+            <TextBlock Name="StatusText"
+                       Text="Ready"
+                       Foreground="#666666"
+                       VerticalAlignment="Center"
+                       FontSize="12"/>
+            
+            <Button Name="BackBtn"
+                    Content="Back to Menu"
+                    Click="OnBackClick"
+                    Padding="12,8"
+                    HorizontalAlignment="Right"/>
+        </StackPanel>
+        </Grid>
+    </Border>
+</Window>

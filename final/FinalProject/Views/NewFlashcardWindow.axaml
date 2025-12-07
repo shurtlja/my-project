@@ -1,0 +1,65 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="FinalProject.Views.NewFlashcardWindow"
+        Title="Create New Flashcard Set"
+        Width="600"
+        Height="450"
+        WindowStartupLocation="CenterScreen">
+    <Border Padding="20">
+        <Grid RowDefinitions="Auto,Auto,Auto,*" ColumnDefinitions="*">
+        <!-- Language Selection -->
+        <StackPanel Grid.Row="0" Margin="0,0,0,10">
+            <TextBlock Text="Language:" FontSize="14" FontWeight="Bold" Margin="0,0,0,5"/>
+            <ComboBox Name="LanguageCombo"
+                      SelectedIndex="0"
+                      Padding="10">
+                <ComboBoxItem>Spanish</ComboBoxItem>
+                <ComboBoxItem>French</ComboBoxItem>
+                <ComboBoxItem>German</ComboBoxItem>
+                <ComboBoxItem>Italian</ComboBoxItem>
+                <ComboBoxItem>Japanese</ComboBoxItem>
+                <ComboBoxItem>Chinese</ComboBoxItem>
+            </ComboBox>
+        </StackPanel>
+
+        <!-- Number of Words -->
+        <StackPanel Grid.Row="1" Margin="0,0,0,10">
+            <TextBlock Text="Number of Words:" FontSize="14" FontWeight="Bold" Margin="0,0,0,5"/>
+            <NumericUpDown Name="WordCountUpDown"
+                           Value="20"
+                           Minimum="5"
+                           Maximum="100"
+                           Height="40"
+                           Padding="10"/>
+        </StackPanel>
+
+        <!-- Info -->
+        <TextBlock Grid.Row="2" 
+                   Text="The AI will generate vocabulary words with meanings and example sentences."
+                   Foreground="#666666"
+                   TextWrapping="Wrap"
+                   Margin="0,0,0,10"
+                   FontSize="12"/>
+
+        <!-- Buttons -->
+        <StackPanel Grid.Row="3" 
+                    Orientation="Horizontal" 
+                    Spacing="10" 
+                    VerticalAlignment="Bottom">
+            <Button Name="CancelBtn"
+                    Content="Cancel"
+                    Click="OnCancelClick"
+                    Padding="12,10"
+                    HorizontalAlignment="Left"/>
+            
+            <Button Name="GenerateBtn"
+                    Content="Generate Flashcards"
+                    Click="OnGenerateClick"
+                    Padding="12,10"
+                    HorizontalAlignment="Right"
+                    Background="#51CF66"
+                    Foreground="White"/>
+        </StackPanel>
+        </Grid>
+    </Border>
+</Window>

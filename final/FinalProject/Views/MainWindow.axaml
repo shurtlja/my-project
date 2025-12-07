@@ -1,0 +1,54 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="FinalProject.Views.MainWindow"
+        Title="Flashcard &amp; AI Chat System"
+        Width="600"
+        Height="500"
+        WindowStartupLocation="CenterScreen">
+    <Grid RowDefinitions="*" ColumnDefinitions="*">
+        <Border Grid.Row="0" Padding="20" Background="#F5F5F5">
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="15">
+                <TextBlock Text="Welcome to Flashcard &amp; AI Chat" 
+                           FontSize="28" 
+                           FontWeight="Bold"
+                           Foreground="#333333"
+                           TextAlignment="Center"/>
+                
+                <TextBlock Text="Choose an option below to get started"
+                           FontSize="14"
+                           Foreground="#666666"
+                           TextAlignment="Center"/>
+                
+                <StackPanel Spacing="10" Margin="0,20,0,0">
+                    <Button Name="NewFlashcardBtn" 
+                            Content="Create New Flashcard Set"
+                            Click="OnNewFlashcardClick"
+                            Padding="15,10"
+                            FontSize="14"
+                            HorizontalAlignment="Stretch"/>
+                    
+                    <Button Name="PracticeFlashcardBtn" 
+                            Content="Practice Flashcard Set"
+                            Click="OnPracticeFlashcardClick"
+                            Padding="15,10"
+                            FontSize="14"
+                            HorizontalAlignment="Stretch"/>
+                    
+                    <Button Name="AIChatBtn" 
+                            Content="Start AI Chat"
+                            Click="OnAIChatClick"
+                            Padding="15,10"
+                            FontSize="14"
+                            HorizontalAlignment="Stretch"/>
+                    
+                    <Button Name="ExitBtn" 
+                            Content="Exit"
+                            Click="OnExitClick"
+                            Padding="15,10"
+                            FontSize="14"
+                            HorizontalAlignment="Stretch"/>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>

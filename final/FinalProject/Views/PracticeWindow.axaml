@@ -1,0 +1,92 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="FinalProject.Views.PracticeWindow"
+        Title="Practice Flashcards"
+        Width="700"
+        Height="600"
+        WindowStartupLocation="CenterScreen">
+    <Border Padding="20">
+        <Grid RowDefinitions="Auto,*,Auto" ColumnDefinitions="*">
+        <!-- Progress -->
+        <StackPanel Grid.Row="0" Margin="0,0,0,15">
+            <TextBlock Name="ProgressText" 
+                       FontSize="14" 
+                       Foreground="#666666"
+                       Text="Loading..."/>
+            <ProgressBar Name="ProgressBar" 
+                         Height="8" 
+                         Margin="0,5,0,0"/>
+        </StackPanel>
+
+        <!-- Flashcard Display -->
+        <Border Grid.Row="1" 
+                Background="White" 
+                CornerRadius="8" 
+                BorderThickness="2"
+                BorderBrush="#CCCCCC"
+                Padding="30">
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="20">
+                <TextBlock Text="Word:"
+                           FontSize="16"
+                           Foreground="#666666"/>
+                <TextBlock Name="WordText"
+                           FontSize="32"
+                           FontWeight="Bold"
+                           Foreground="#333333"
+                           TextAlignment="Center"/>
+                
+                <Separator/>
+                
+                <StackPanel Spacing="10">
+                    <Button Name="HintBtn" 
+                            Content="Show Hint"
+                            Click="OnHintClick"
+                            Padding="10,8"
+                            HorizontalAlignment="Stretch"/>
+                    
+                    <TextBlock Name="HintText"
+                               FontSize="14"
+                               Foreground="#999999"
+                               TextAlignment="Center"
+                               TextWrapping="Wrap"
+                               IsVisible="False"/>
+                </StackPanel>
+                
+                <Separator/>
+                
+                <TextBlock Name="MeaningText"
+                           FontSize="16"
+                           Foreground="#555555"
+                           TextAlignment="Center"
+                           TextWrapping="Wrap"
+                           IsVisible="False"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Controls -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" Spacing="10" Margin="0,15,0,0">
+            <Button Name="BackBtn" 
+                    Content="Back to Menu"
+                    Click="OnBackClick"
+                    Padding="12,10"
+                    HorizontalAlignment="Left"/>
+            
+            <StackPanel Orientation="Horizontal" Spacing="10" HorizontalAlignment="Right">
+                <Button Name="IncorrectBtn" 
+                        Content="Got it Wrong ✗"
+                        Click="OnIncorrectClick"
+                        Padding="12,10"
+                        Background="#FF6B6B"
+                        Foreground="White"/>
+                
+                <Button Name="CorrectBtn" 
+                        Content="Got it Right ✓"
+                        Click="OnCorrectClick"
+                        Padding="12,10"
+                        Background="#51CF66"
+                        Foreground="White"/>
+            </StackPanel>
+        </StackPanel>
+        </Grid>
+    </Border>
+</Window>
