@@ -2,22 +2,25 @@ using Avalonia;
 using Avalonia.Markup.Xaml;
 using FinalProject.Views;
 
-public partial class App : Application
+namespace FinalProject
 {
-    public override void Initialize()
+    public partial class App : Application
     {
-        AvaloniaXamlLoader.Load(this);
-    }
-
-    public override void OnFrameworkInitializationCompleted()
-    {
-        var lifetime = ApplicationLifetime;
-        if (lifetime != null)
+        public override void Initialize()
         {
-            var desktopLifetime = lifetime as dynamic;
-            desktopLifetime.MainWindow = new MainWindow();
+            AvaloniaXamlLoader.Load(this);
         }
 
-        base.OnFrameworkInitializationCompleted();
+        public override void OnFrameworkInitializationCompleted()
+        {
+            var lifetime = ApplicationLifetime;
+            if (lifetime != null)
+            {
+                var desktopLifetime = lifetime as dynamic;
+                desktopLifetime.MainWindow = new MainWindow();
+            }
+
+            base.OnFrameworkInitializationCompleted();
+        }
     }
 }

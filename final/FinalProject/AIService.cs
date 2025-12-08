@@ -11,8 +11,9 @@ public class AIService
 
     public async Task<List<VocabularyWord>> GenerateVocabulary(int count, string language)
     {
-        var prompt = $"Generate {count} {language} vocabulary words with meanings and one example sentence each.";
+        var prompt = $"create {count} {language} vocabulary words with meanings and one example sentence each in json format.";
         var json = await model.Run(prompt);
+        Console.WriteLine(json);
 
 
         // Placeholder: you'd deserialize JSON here
@@ -22,7 +23,7 @@ public class AIService
 
     public async Task<string> GenerateContextSentence(string word)
     {
-        return await model.Run($"Generate a sample sentence using: {word}");
+        return await model.Run($"Generate a sample sentence using the word: {word}");
     }
 
     public async Task<string> GenerateChatResponse(string message)
