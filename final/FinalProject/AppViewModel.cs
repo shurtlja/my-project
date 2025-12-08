@@ -2,53 +2,51 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace FinalProject
+namespace FinalProject;
+
+public class AppViewModel
 {
-    public class AppViewModel
+    private LanguageManager languageManager;
+    private FlashcardSession session;
+    private AIService aiService;
+
+    public AppViewModel()
     {
-        private LanguageManager languageManager;
-        private FlashcardSession session;
-        private AIService aiService;
+        languageManager = new LanguageManager();
+        aiService = new AIService();
+        session = new FlashcardSession(languageManager);
+    }
 
-        public AppViewModel()
+    public void ShowNewFlashcardWindow()
+    {
+        var newFlashcardWindow = new Views.NewFlashcardWindow();
+        newFlashcardWindow.FlashcardsGenerated += (flashcards) =>
         {
-            languageManager = new LanguageManager();
-            aiService = new AIService();
-            session = new FlashcardSession(languageManager);
-        }
+            ShowPracticeWindow(flashcards);
+        };
+        newFlashcardWindow.Show();
+    }
 
-        public void ShowNewFlashcardWindow()
+    public void ShowPracticeWindow(List<Flashcard> flashcards = null)
+    {
+        var practiceWindow = new Views.PracticeWindow();
+        
+        if (flashcards != null && flashcards.Count > 0)
         {
-            // Create and show new flashcard window
-            var newFlashcardWindow = new FinalProject.Views.NewFlashcardWindow();
-            newFlashcardWindow.FlashcardsGenerated += (flashcards) =>
-            {
-                ShowPracticeWindow(flashcards);
-            };
-            newFlashcardWindow.Show();
+            practiceWindow.LoadDeck(flashcards);
         }
+        else
+        {
+            practiceWindow.LoadDeck(new List<Flashcard>());
+        }
+        
+        practiceWindow.Show();
+    }
 
-        public void ShowPracticeWindow(List<Flashcard> flashcards = null)
-        {
-            var practiceWindow = new FinalProject.Views.PracticeWindow();
-            
-            if (flashcards != null && flashcards.Count > 0)
-            {
-                practiceWindow.LoadDeck(flashcards);
-            }
-            else
-            {
-                // Load default or ask user to create new deck
-                practiceWindow.LoadDeck(new List<Flashcard>());
-            }
-            
-            practiceWindow.Show();
-        }
-
-        public void ShowAIChatWindow()
-        {
-            var chatWindow = new FinalProject.Views.AIChatWindow();
-            chatWindow.Show();
-        }
+    public void ShowAIChatWindow()
+    {
+        var chatWindow = new Views.AIChatWindow();
+        chatWindow.Show();
     }
 }
+

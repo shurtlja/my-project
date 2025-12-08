@@ -3,10 +3,10 @@ using Avalonia.Interactivity;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace FinalProject.Views
+namespace FinalProject.Views;
+
+public partial class PracticeWindow : Window
 {
-    public partial class PracticeWindow : Window
-    {
         private List<Flashcard> deck;
         private int currentIndex;
         private bool meaningShown;
@@ -107,9 +107,8 @@ namespace FinalProject.Views
             }
         }
 
-        private void OnBackClick(object sender, RoutedEventArgs e)
-        {
-            Close();
-        }
+    private void OnBackClick(object sender, RoutedEventArgs e)
+    {
+        Close();
     }
 }

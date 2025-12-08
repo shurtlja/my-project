@@ -1,9 +1,18 @@
 public class VocabularyWord
 {
-    public string Word { get; set; }
-    public string Meaning { get; set; }
-    public List<string> ContextSentences { get; set; }
+    private string Word;
+    private string Meaning;
+    private List<string> ContextSentences;
 
+    public string GetWord()
+    {
+        return Word;
+    }
+
+    public string GetMeaning()
+    {
+        return Meaning;
+    }
 
     public string GetRandomContext()
     {

@@ -20,19 +20,28 @@ public class FlashcardSession
 
         foreach (var w in words)
         {
-            if (!manager.IsWellKnown(w.Word))
+            if (!manager.IsWellKnown(w.GetWord()))
             deck.Add(new Flashcard(w));
         }
     }
 
 
-    public Flashcard GetCurrentFlashcard() => deck[currentIndex];
+    public Flashcard GetCurrentFlashcard() 
+    {
+        return deck[currentIndex];
+    }
 
 
-    public bool HasNext() => currentIndex < deck.Count;
+    public bool HasNext() 
+    {
+        return currentIndex < deck.Count;
+    }
 
 
-    public void Next() => currentIndex++;
+    public void Next() 
+    {
+        currentIndex++;
+    }
 
 
     public void MarkCorrect()

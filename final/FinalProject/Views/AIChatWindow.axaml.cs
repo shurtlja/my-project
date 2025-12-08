@@ -2,10 +2,10 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using System.Text;
 
-namespace FinalProject.Views
+namespace FinalProject.Views;
+
+public partial class AIChatWindow : Window
 {
-    public partial class AIChatWindow : Window
-    {
         private AIService aiService;
         private StringBuilder chatHistory;
         private bool chatStarted = false;
@@ -89,4 +89,4 @@ namespace FinalProject.Views
             Close();
         }
     }
-}
+

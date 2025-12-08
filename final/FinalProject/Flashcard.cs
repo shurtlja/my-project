@@ -11,16 +11,32 @@ public class Flashcard
     }
 
 
-    public string GetWord() => WordData.Word;
-    public string GetMeaning() => WordData.Meaning;
-    public string GetContextSentence() => WordData.GetRandomContext();
+    public string GetWord() 
+    {
+        return WordData.GetWord();
+    }
+    public string GetMeaning() 
+    {
+        return WordData.GetMeaning();
+    }
+    public string GetContextSentence() 
+    {
+        return WordData.GetRandomContext();
+    }
 
 
-    public void IncrementCorrect() => consecutiveCorrect++;
+    public void IncrementCorrect() 
+    {
+        consecutiveCorrect++;
+    }
 
+    public void ResetCorrect() 
+    {
+        consecutiveCorrect = 0;
+    }
 
-    public void ResetCorrect() => consecutiveCorrect = 0;
-
-
-    public bool IsMastered() => consecutiveCorrect >= 2;
+    public bool IsMastered() 
+    {
+        return consecutiveCorrect >= 2;
+    }
 }

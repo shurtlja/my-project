@@ -16,7 +16,6 @@ public class AIService
         Console.WriteLine(json);
 
 
-        // Placeholder: you'd deserialize JSON here
         return new List<VocabularyWord>();
     }
 

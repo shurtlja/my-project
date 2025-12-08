@@ -3,10 +3,10 @@ using Avalonia.Interactivity;
 
 #nullable enable
 
-namespace FinalProject.Views
+namespace FinalProject.Views;
+
+public partial class NewFlashcardWindow : Window
 {
-    public partial class NewFlashcardWindow : Window
-    {
         private AIService aiService;
         public List<Flashcard> GeneratedFlashcards { get; private set; }
         public event Action<List<Flashcard>>? FlashcardsGenerated;
@@ -52,9 +52,8 @@ namespace FinalProject.Views
             }
         }
 
-        private void OnCancelClick(object sender, RoutedEventArgs e)
-        {
-            Close();
-        }
+    private void OnCancelClick(object sender, RoutedEventArgs e)
+    {
+        Close();
     }
 }

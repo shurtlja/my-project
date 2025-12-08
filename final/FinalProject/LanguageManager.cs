@@ -5,12 +5,12 @@ public class LanguageManager
 
     public bool IsWellKnown(string word)
     {
-        return wellKnownWords.Exists(w => w.Word == word);
+        return wellKnownWords.Exists(w => w.GetWord() == word);
     }
 
 
     public void AddWellKnown(VocabularyWord word)
     {
-        if (!IsWellKnown(word.Word)) wellKnownWords.Add(word);
+        if (!IsWellKnown(word.GetWord())) wellKnownWords.Add(word);
     }
 }
