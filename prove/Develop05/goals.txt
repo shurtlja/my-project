@@ -1,4 +1,0 @@
-110
-Checklist|pushups|10|10|1|10
-Eternal|run|20
-Simple|pray|100|True
