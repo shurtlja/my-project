@@ -82,8 +82,8 @@ public partial class PracticeWindow : Window
             {
                 try
                 {
-                    var exeDir = AppContext.BaseDirectory ?? Environment.CurrentDirectory;
-                    var dataDir = Path.Combine(exeDir, "data");
+                    var projDir = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory ?? Environment.CurrentDirectory, "..", "..", ".."));
+                    var dataDir = Path.Combine(projDir, "data");
                     Directory.CreateDirectory(dataDir);
                     var knownPath = Path.Combine(dataDir, "knownWords.txt");
 

@@ -16,8 +16,9 @@ public partial class NewFlashcardWindow : Window
 
     private static string GetSetsDirectory()
     {
-        var baseDir = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-        var dir = Path.Combine(baseDir, "FinalProject", "FlashcardSets");
+        // Resolve project directory from the running assembly location (bin/Debug/netX -> project folder)
+        var projDir = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory ?? Environment.CurrentDirectory, "..", "..", ".."));
+        var dir = Path.Combine(projDir, "FlashcardSets");
         return dir;
     }
 
@@ -56,8 +57,8 @@ public partial class NewFlashcardWindow : Window
             Console.WriteLine($"Generating {count} words in {language} about topic: {topic}"); // debug for prompt
 
             // Load known words (if any) to compare overlap
-            var exeDir = AppContext.BaseDirectory ?? Environment.CurrentDirectory;
-            var dataDir = Path.Combine(exeDir, "data");
+            var projDir = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory ?? Environment.CurrentDirectory, "..", "..", ".."));
+            var dataDir = Path.Combine(projDir, "data");
             var knownPath = Path.Combine(dataDir, "knownWords.txt");
             var knownSet = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
             if (File.Exists(knownPath))
@@ -84,7 +85,8 @@ public partial class NewFlashcardWindow : Window
                 int knownMatches = 0;
                 foreach (var w in words)
                 {
-                    if (!string.IsNullOrWhiteSpace(w.Word) && knownSet.Contains(w.Word)) knownMatches++;
+                    var wordText = w.GetWord();
+                    if (!string.IsNullOrWhiteSpace(wordText) && knownSet.Contains(wordText)) knownMatches++;
                 }
 
                 var overlap = words.Count == 0 ? 0.0 : (double)knownMatches / words.Count;
@@ -95,7 +97,10 @@ public partial class NewFlashcardWindow : Window
                 // remove known words from the candidate list
                 if (finalWords != null && finalWords.Count > 0 && knownSet.Count > 0)
                 {
-                    finalWords = finalWords.Where(w => !string.IsNullOrWhiteSpace(w.Word) && !knownSet.Contains(w.Word)).ToList();
+                    finalWords = finalWords.Where(w => {
+                        var wt = w.GetWord();
+                        return !string.IsNullOrWhiteSpace(wt) && !knownSet.Contains(wt);
+                    }).ToList();
                     Console.WriteLine($"Filtered out known words — remaining count: {finalWords.Count}");
                 }
 
@@ -131,7 +136,7 @@ public partial class NewFlashcardWindow : Window
                 var fileName = $"{Sanitize(language)}_{Sanitize(topic ?? "general")}_{DateTime.UtcNow:yyyyMMddHHmmss}.json";
                 var path = Path.Combine(setsDir, fileName);
 
-                var wordsToSave = GeneratedFlashcards.Select(f => f.WordData).ToList();
+                var wordsToSave = GeneratedFlashcards.Select(f => new { word = f.GetWordData().GetWord(), english = f.GetWordData().GetMeaning() }).ToList();
                 var options = new JsonSerializerOptions { WriteIndented = true };
                 var json = JsonSerializer.Serialize(wordsToSave, options);
                 await File.WriteAllTextAsync(path, json);

@@ -14,8 +14,8 @@ public class PracticeFlashcardsActivity : LearningActivity
 
     public override async Task Run(Window owner)
     {
-        var baseDir = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-        var setsDir = Path.Combine(baseDir, "FinalProject", "FlashcardSets");
+        var projDir = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory ?? Environment.CurrentDirectory, "..", "..", ".."));
+        var setsDir = Path.Combine(projDir, "FlashcardSets");
 
         if (!Directory.Exists(setsDir))
         {
@@ -59,7 +59,14 @@ public class PracticeFlashcardsActivity : LearningActivity
         try
         {
             var json = await File.ReadAllTextAsync(chosenPath);
-            var words = JsonSerializer.Deserialize<List<VocabularyWord>>(json) ?? new List<VocabularyWord>();
+            var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+            var dtos = JsonSerializer.Deserialize<List<TempWordDto>>(json, options) ?? new List<TempWordDto>();
+            var words = dtos.Select(d => {
+                var v = new VocabularyWord();
+                v.SetWord(d.word ?? string.Empty);
+                v.SetMeaning(d.english ?? string.Empty);
+                return v;
+            }).ToList();
             var flashcards = words.Select(w => new Flashcard(w)).ToList();
             ViewModel.ShowPracticeWindow(flashcards);
         }
@@ -69,4 +76,10 @@ public class PracticeFlashcardsActivity : LearningActivity
             ViewModel.ShowPracticeWindow();
         }
     }
+}
+
+internal class TempWordDto
+{
+    public string? word { get; set; }
+    public string? english { get; set; }
 }

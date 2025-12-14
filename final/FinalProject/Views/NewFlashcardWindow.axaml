@@ -26,7 +26,7 @@
         <StackPanel Grid.Row="1" Margin="0,0,0,10">
             <TextBlock Text="Number of Words:" FontSize="14" FontWeight="Bold" Margin="0,0,0,5"/>
             <NumericUpDown Name="WordCountUpDown"
-                           Value="20"
+                           Value="10"
                            Minimum="5"
                            Maximum="100"
                            Height="40"

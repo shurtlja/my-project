@@ -1,41 +1,41 @@
 public class Flashcard
 {
     private int consecutiveCorrect;
-    public VocabularyWord WordData { get; private set; }
-
+    private VocabularyWord wordData;
 
     public Flashcard(VocabularyWord w)
     {
-        WordData = w;
+        wordData = w;
         consecutiveCorrect = 0;
     }
 
+    public VocabularyWord GetWordData() => wordData;
+    public void SetWordData(VocabularyWord w) => wordData = w;
 
-    public string GetWord() 
+    public string GetWord()
     {
-        return WordData.GetWord();
+        return wordData.GetWord();
     }
-    public string GetMeaning() 
+    public string GetMeaning()
     {
-        return WordData.GetMeaning();
+        return wordData.GetMeaning();
     }
-    public string GetContextSentence() 
+    public string GetContextSentence()
     {
-        return WordData.GetRandomContext();
+        return wordData.GetRandomContext();
     }
 
-
-    public void IncrementCorrect() 
+    public void IncrementCorrect()
     {
         consecutiveCorrect++;
     }
 
-    public void ResetCorrect() 
+    public void ResetCorrect()
     {
         consecutiveCorrect = 0;
     }
 
-    public bool IsMastered() 
+    public bool IsMastered()
     {
         return consecutiveCorrect >= 2;
     }

@@ -50,7 +50,7 @@ public class FlashcardSession
         card.IncrementCorrect();
 
 
-        if (card.IsMastered()) manager.AddWellKnown(card.WordData);
+        if (card.IsMastered()) manager.AddWellKnown(card.GetWordData());
 
 
         MoveBack(10);
