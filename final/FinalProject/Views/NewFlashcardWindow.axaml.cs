@@ -10,7 +10,7 @@ namespace FinalProject.Views;
 
 public partial class NewFlashcardWindow : Window
 {
-    private AIService aiService;
+    // generators are created per-request
     public List<Flashcard> GeneratedFlashcards { get; private set; }
     public event Action<List<Flashcard>>? FlashcardsGenerated;
 
@@ -25,7 +25,6 @@ public partial class NewFlashcardWindow : Window
     public NewFlashcardWindow()
     {
         InitializeComponent();
-        aiService = new AIService();
         GeneratedFlashcards = new List<Flashcard>();
     }
 
@@ -78,8 +77,9 @@ public partial class NewFlashcardWindow : Window
 
             while (true)
             {
-                var words = await aiService.GenerateVocabulary(count, language, topic, promptAddition);
-                if (words == null) words = new List<VocabularyWord>();
+                var generator = new VocabularyGenerator(count, language, topic, promptAddition);
+                var res = await generator.Generate();
+                var words = res as List<VocabularyWord> ?? new List<VocabularyWord>();
 
                 // compute overlap
                 int knownMatches = 0;

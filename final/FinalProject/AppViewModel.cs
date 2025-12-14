@@ -8,12 +8,12 @@ public class AppViewModel
 {
     private LanguageManager languageManager;
     private FlashcardSession session;
-    private AIService aiService;
+    // generators are created where needed now
 
     public AppViewModel()
     {
         languageManager = new LanguageManager();
-        aiService = new AIService();
+        // no-op: generators will be instantiated by windows that need them
         session = new FlashcardSession(languageManager);
     }
 

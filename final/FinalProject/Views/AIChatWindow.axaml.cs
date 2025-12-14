@@ -6,14 +6,13 @@ namespace FinalProject.Views;
 
 public partial class AIChatWindow : Window
 {
-        private AIService aiService;
+        // chat generator instances are created per-message
         private StringBuilder chatHistory;
         private bool chatStarted = false;
 
         public AIChatWindow()
         {
             InitializeComponent();
-            aiService = new AIService();
             chatHistory = new StringBuilder();
             // chat starts once user provides language/topic and clicks Start
             SendBtn.IsEnabled = false;
@@ -33,7 +32,9 @@ public partial class AIChatWindow : Window
 
             try
             {
-                var initResponse = await aiService.GenerateChatResponse(instruction);
+                var initGen = new ChatGenerator(instruction);
+                var initObj = await initGen.Generate();
+                var initResponse = initObj as string ?? string.Empty;
                 chatHistory.AppendLine($"AI: {initResponse}");
                 chatHistory.AppendLine();
                 ChatDisplay.Text = chatHistory.ToString();
@@ -68,7 +69,9 @@ public partial class AIChatWindow : Window
             try
             {
                 // Get AI response
-                var response = await aiService.GenerateChatResponse($"You: {userMessage}\nAI:");
+                var gen = new ChatGenerator($"You: {userMessage}\nAI:");
+                var respObj = await gen.Generate();
+                var response = respObj as string ?? string.Empty;
                 chatHistory.AppendLine($"AI: {response}");
                 chatHistory.AppendLine();
 
