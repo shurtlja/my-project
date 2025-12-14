@@ -8,7 +8,7 @@ public class LocalModel
     private InteractiveExecutor executor;
     private ChatSession session;
     private InferenceParams inferenceParams;
-    private string stopSequence = "\n";
+    private List<string> stopSequences = new List<string> { "\n" };
 
     public void LoadModel(string path)
     {
@@ -39,10 +39,25 @@ public class LocalModel
         {
             result += token;
 
-            // Stop if the configured stop sequence appears in the output
-            if (!string.IsNullOrEmpty(stopSequence) && result.Contains(stopSequence))
+            // Stop if any of the configured stop sequences appears in the output
+            if (stopSequences != null && stopSequences.Count > 0 && stopSequences.Any(s => !string.IsNullOrEmpty(s) && result.Contains(s)))
             {
                 break;
+            }
+        }
+
+        // If the result ends with any of the stop sequences, remove the longest matching suffix.
+        if (!string.IsNullOrEmpty(result) && stopSequences != null && stopSequences.Count > 0)
+        {
+            // order sequences by length to prefer longest match
+            var candidates = stopSequences.Where(s => !string.IsNullOrEmpty(s)).OrderByDescending(s => s.Length);
+            foreach (var seq in candidates)
+            {
+                if (result.EndsWith(seq))
+                {
+                    result = result.Substring(0, result.Length - seq.Length);
+                    break;
+                }
             }
         }
 
@@ -50,8 +65,15 @@ public class LocalModel
     }
 
     // Configure a stop sequence (e.g. "AI:") so callers can control when streaming stops.
+    // Configure a single stop sequence (backwards-compatible)
     public void SetStopSequence(string sequence)
     {
-        stopSequence = sequence ?? string.Empty;
+        stopSequences = new List<string> { sequence ?? string.Empty };
+    }
+
+    // Configure multiple stop sequences
+    public void SetStopSequences(IEnumerable<string> sequences)
+    {
+        stopSequences = sequences?.Where(s => s != null).Select(s => s ?? string.Empty).ToList() ?? new List<string>();
     }
 }

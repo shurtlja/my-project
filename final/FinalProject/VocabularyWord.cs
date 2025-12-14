@@ -4,8 +4,13 @@ public class VocabularyWord
     public string Meaning { get; set; } = string.Empty;
     public List<string> ContextSentences { get; set; } = new List<string>();
 
-    public string GetWord() => Word;
-    public string GetMeaning() => Meaning;
+    public string GetWord() {
+        return Word;
+    }
+
+    public string GetMeaning() {
+        return Meaning;
+    }
 
     public string GetRandomContext()
     {

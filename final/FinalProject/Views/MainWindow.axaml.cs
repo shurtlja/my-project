@@ -9,85 +9,35 @@ namespace FinalProject.Views;
 public partial class MainWindow : Window
 {
     private AppViewModel viewModel;
+    private FinalProject.Activities.LearningActivity createActivity;
+    private FinalProject.Activities.LearningActivity practiceActivity;
+    private FinalProject.Activities.LearningActivity aiChatActivity;
 
     public MainWindow()
     {
         InitializeComponent();
         viewModel = new AppViewModel();
         DataContext = viewModel;
+
+        // instantiate activities
+        createActivity = new FinalProject.Activities.CreateFlashcardsActivity(viewModel);
+        practiceActivity = new FinalProject.Activities.PracticeFlashcardsActivity(viewModel);
+        aiChatActivity = new FinalProject.Activities.AIChatActivity(viewModel);
     }
 
-    private void OnNewFlashcardClick(object sender, RoutedEventArgs e)
+    private async void OnNewFlashcardClick(object sender, RoutedEventArgs e)
     {
-        viewModel.ShowNewFlashcardWindow();
+        await createActivity.Run(this);
     }
 
     private async void OnPracticeFlashcardClick(object sender, RoutedEventArgs e)
     {
-        // look for saved flashcard sets
-        var baseDir = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-        var setsDir = Path.Combine(baseDir, "FinalProject", "FlashcardSets");
-
-        if (!Directory.Exists(setsDir))
-        {
-            // no saved sets, open empty practice window
-            viewModel.ShowPracticeWindow();
-            return;
-        }
-
-        var files = Directory.GetFiles(setsDir, "*.json").OrderByDescending(f => File.GetLastWriteTimeUtc(f)).ToArray();
-        if (files.Length == 0)
-        {
-            viewModel.ShowPracticeWindow();
-            return;
-        }
-
-        string? chosenPath = null;
-        if (files.Length == 1)
-        {
-            chosenPath = files[0];
-        }
-        else
-        {
-            var dialog = new OpenFileDialog();
-            dialog.AllowMultiple = false;
-            dialog.Filters.Add(new FileDialogFilter { Name = "Flashcard Sets", Extensions = { "json" } });
-            try
-            {
-                // set initial directory when supported
-                dialog.Directory = setsDir;
-            }
-            catch { }
-
-            var result = await dialog.ShowAsync(this);
-            if (result != null && result.Length > 0)
-                chosenPath = result[0];
-        }
-
-        if (chosenPath == null)
-        {
-            // user cancelled
-            return;
-        }
-
-        try
-        {
-            var json = await File.ReadAllTextAsync(chosenPath);
-            var words = JsonSerializer.Deserialize<List<VocabularyWord>>(json) ?? new List<VocabularyWord>();
-            var flashcards = words.Select(w => new Flashcard(w)).ToList();
-            viewModel.ShowPracticeWindow(flashcards);
-        }
-        catch (Exception ex)
-        {
-            // fallback: open empty practice window
-            Console.WriteLine($"Failed to load flashcard set: {ex.Message}");
-            viewModel.ShowPracticeWindow();
-        }
+        await practiceActivity.Run(this);
     }
 
-    private void OnAIChatClick(object sender, RoutedEventArgs e)
+    private async void OnAIChatClick(object sender, RoutedEventArgs e)
     {
-        viewModel.ShowAIChatWindow();
+        await aiChatActivity.Run(this);
     }
 
     private void OnExitClick(object sender, RoutedEventArgs e)

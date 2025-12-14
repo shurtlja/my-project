@@ -80,7 +80,7 @@ public class AIService
 
     public async Task<string> GenerateChatResponse(string message)
     {
-        model.SetStopSequence("\n");
+        model.SetStopSequences(["\n","You:","AI:"]);
         return await model.Run(message);
     }
 }
