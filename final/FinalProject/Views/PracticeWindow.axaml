@@ -13,9 +13,6 @@
                        FontSize="14" 
                        Foreground="#666666"
                        Text="Loading..."/>
-            <ProgressBar Name="ProgressBar" 
-                         Height="8" 
-                         Margin="0,5,0,0"/>
         </StackPanel>
 
         <!-- Flashcard Display -->

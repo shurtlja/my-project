@@ -17,40 +17,58 @@ public class AIService
         model.LoadModel(modelPath);
     }
 
-    public async Task<List<VocabularyWord>> GenerateVocabulary(int count, string language, string? topic = null)
+    public async Task<List<VocabularyWord>> GenerateVocabulary(int count, string language, string? topic = null, string? promptAddition = null)
     {
-        var topicClause = string.IsNullOrWhiteSpace(topic) ? string.Empty : $" about {topic}";
-        var prompt = $"Generate {count} vocabulary words in {language} about {topicClause}. Return only a JSON array of objects with keys \"word\" and \"english\". Example: [{{\"word\":\"你好\",\"english\":\"hello\"}}, ...]";
+        var topicText = string.IsNullOrWhiteSpace(topic) ? string.Empty : topic.Trim();
+        var topicClause = string.IsNullOrEmpty(topicText) ? string.Empty : $" about {topicText}";
+
+        var addition = string.IsNullOrWhiteSpace(promptAddition) ? string.Empty : (" " + promptAddition.Trim());
+        var basePrompt = $"Generate {count} vocabulary words in {language}{topicClause}.{addition} Return ONLY a JSON array of objects with keys \"word\" and \"english\". Example: [{{\"word\":\"你好\",\"english\":\"hello\"}}, ...]";
+
         model.SetStopSequence("]");
-        var json = await model.Run(prompt);
-        Console.WriteLine("Model Output: " + json);
 
-        // Try to extract JSON array from model output in case it includes extra text
-        var start = json.IndexOf('[');
-        var end = json.LastIndexOf(']');
-        if (start >= 0 && end > start)
+        int maxAttempts = 3;
+        for (int attempt = 1; attempt <= maxAttempts; attempt++)
         {
-            json = json.Substring(start, end - start + 1);
-        }
+            var prompt = attempt == 1
+                ? basePrompt
+                : $"The previous response was not valid JSON. {basePrompt} Respond with the JSON array only, no explanation.";
 
-        try
-        {
-            var options = new System.Text.Json.JsonSerializerOptions
+            var jsonOut = await model.Run(prompt);
+            Console.WriteLine($"Model Output (attempt {attempt}): {jsonOut}");
+
+            // Try to extract JSON array from model output in case it includes extra text
+            var start = jsonOut.IndexOf('[');
+            var end = jsonOut.LastIndexOf(']');
+            if (start >= 0 && end > start)
             {
-                PropertyNameCaseInsensitive = true
-            };
+                jsonOut = jsonOut.Substring(start, end - start + 1);
+            }
 
-            // Temporary DTO matching the expected output
-            var dtos = System.Text.Json.JsonSerializer.Deserialize<List<TempWordDto>>(json, options);
-            if (dtos == null) return new List<VocabularyWord>();
+            try
+            {
+                var options = new System.Text.Json.JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                };
 
-            var result = dtos.Select(d => new VocabularyWord { Word = d.word ?? string.Empty, Meaning = d.english ?? string.Empty }).ToList();
-            return result;
+                var dtos = System.Text.Json.JsonSerializer.Deserialize<List<TempWordDto>>(jsonOut, options);
+                if (dtos != null && dtos.Count > 0)
+                {
+                    var result = dtos.Select(d => new VocabularyWord { Word = d.word ?? string.Empty, Meaning = d.english ?? string.Empty }).ToList();
+                    return result;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"JSON parse attempt {attempt} failed: {ex.Message}");
+            }
+
+            // if not last attempt, loop to regenerate
         }
-        catch
-        {
-            return new List<VocabularyWord>();
-        }
+
+        // All attempts failed — return empty list
+        return new List<VocabularyWord>();
     }
 
 
