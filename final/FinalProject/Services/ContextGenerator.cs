@@ -1,5 +1,3 @@
-using System.Threading.Tasks;
-
 public class ContextGenerator : AIService
 {
     private readonly string word;

@@ -1,5 +1,3 @@
-using System.Threading.Tasks;
-
 public class ChatGenerator : AIService
 {
     private readonly string message;
