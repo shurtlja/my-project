@@ -20,7 +20,7 @@ public class AppViewModel
     public void ShowNewFlashcardWindow()
     {
         var newFlashcardWindow = new Views.NewFlashcardWindow();
-        newFlashcardWindow.FlashcardsGenerated += (flashcards) =>
+        newFlashcardWindow.FlashcardsGenerated += delegate(List<Flashcard> flashcards)
         {
             ShowPracticeWindow(flashcards);
         };

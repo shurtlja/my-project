@@ -8,13 +8,13 @@
     <Grid RowDefinitions="*" ColumnDefinitions="*">
         <Border Grid.Row="0" Padding="20" Background="#F5F5F5">
             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="15">
-                <TextBlock Text="Welcome to Flashcard &amp; AI Chat" 
+                <TextBlock Text="AI language learning app" 
                            FontSize="28" 
                            FontWeight="Bold"
                            Foreground="#333333"
                            TextAlignment="Center"/>
                 
-                <TextBlock Text="Choose an option below to get started"
+                <TextBlock Text="Choose an option below"
                            FontSize="14"
                            Foreground="#666666"
                            TextAlignment="Center"/>

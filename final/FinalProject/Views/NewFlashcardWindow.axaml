@@ -6,7 +6,7 @@
         Height="450"
         WindowStartupLocation="CenterScreen">
     <Border Padding="20">
-        <Grid RowDefinitions="Auto,Auto,Auto,*" ColumnDefinitions="*">
+        <Grid RowDefinitions="Auto,Auto,Auto,Auto,*" ColumnDefinitions="*">
         <!-- Language Selection -->
         <StackPanel Grid.Row="0" Margin="0,0,0,10">
             <TextBlock Text="Language:" FontSize="14" FontWeight="Bold" Margin="0,0,0,5"/>
@@ -33,8 +33,14 @@
                            Padding="10"/>
         </StackPanel>
 
+        <!-- Topic (optional) -->
+        <StackPanel Grid.Row="2" Margin="0,0,0,10">
+            <TextBlock Text="Topic (optional):" FontSize="14" FontWeight="Bold" Margin="0,0,0,5"/>
+            <TextBox Name="TopicBox" Height="36" Padding="8" Watermark="e.g. travel, food, business"/>
+        </StackPanel>
+
         <!-- Info -->
-        <TextBlock Grid.Row="2" 
+        <TextBlock Grid.Row="3" 
                    Text="The AI will generate vocabulary words with meanings and example sentences."
                    Foreground="#666666"
                    TextWrapping="Wrap"
@@ -42,10 +48,10 @@
                    FontSize="12"/>
 
         <!-- Buttons -->
-        <StackPanel Grid.Row="3" 
-                    Orientation="Horizontal" 
-                    Spacing="10" 
-                    VerticalAlignment="Bottom">
+        <StackPanel Grid.Row="4" 
+                Orientation="Horizontal" 
+                Spacing="10" 
+                VerticalAlignment="Bottom">
             <Button Name="CancelBtn"
                     Content="Cancel"
                     Click="OnCancelClick"

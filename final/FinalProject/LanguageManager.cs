@@ -5,7 +5,7 @@ public class LanguageManager
 
     public bool IsWellKnown(string word)
     {
-        return wellKnownWords.Exists(w => w.GetWord() == word);
+        return wellKnownWords.Exists(delegate(VocabularyWord w) { return w.GetWord() == word; });
     }
 
 

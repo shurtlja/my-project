@@ -25,12 +25,22 @@ public partial class NewFlashcardWindow : Window
 
             try
             {
-                var language = LanguageCombo.SelectedItem?.ToString() ?? "Spanish";
+                string language;
+                if (LanguageCombo.SelectedItem is ComboBoxItem cbi && cbi.Content != null)
+                {
+                    language = cbi.Content.ToString() ?? "Spanish";
+                }
+                else
+                {
+                    language = LanguageCombo.SelectedItem?.ToString() ?? "Spanish";
+                }
                 var count = (int)(WordCountUpDown.Value ?? 20);
 
-                var words = await aiService.GenerateVocabulary(count, language);
+                var topic = TopicBox.Text?.Trim();
+                Console.WriteLine($"Generating {count} words in {language} about topic: {topic}"); // debug for prompt
+                var words = await aiService.GenerateVocabulary(count, language, topic);
                 
-                GeneratedFlashcards = words.Select(w => new Flashcard(w)).ToList();
+                GeneratedFlashcards = words.Select(delegate(VocabularyWord w) { return new Flashcard(w); }).ToList();
                 FlashcardsGenerated?.Invoke(GeneratedFlashcards);
                 
                 Close();
